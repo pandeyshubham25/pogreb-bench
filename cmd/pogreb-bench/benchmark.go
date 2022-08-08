@@ -169,7 +169,7 @@ func benchmark(opts options) error {
 	var totalElapsed float64
 
 	// Put.
-	forceGC()
+	//forceGC()
 	start := time.Now()
 	if err := benchmarkPut(opts, db, keys); err != nil {
 		return err
@@ -180,18 +180,21 @@ func benchmark(opts options) error {
 
 	// Reopen DB.
 	if err := db.Close(); err != nil {
+		fmt.Printf("failed to close db: %s\n", err)
 		return err
 	}
 	shuffle(keys)
 	db, err = kv.NewStore(opts.engine, opts.path)
 	if err != nil {
+		fmt.Printf("failed to open new db: %s\n", err)
 		return err
 	}
 
 	// Get.
-	forceGC()
+	//forceGC()
 	start = time.Now()
 	if err := benchmarkGet(opts, db, keys); err != nil {
+		fmt.Printf("failed benchmarkGet: %s\n", err)
 		return err
 	}
 	elapsed = time.Since(start).Seconds()
@@ -201,6 +204,7 @@ func benchmark(opts options) error {
 	// Total stats.
 	fmt.Printf("\nput + get: %.3fs\n", totalElapsed)
 	if err := db.Close(); err != nil {
+		fmt.Printf("failed to close db after get: %s\n", err)
 		return err
 	}
 	sz, err := dirSize(opts.path)

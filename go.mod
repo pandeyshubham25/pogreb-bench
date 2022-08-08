@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/akrylysov/pogreb v0.10.0
+	github.com/cockroachdb/pebble v0.0.0-20220331220335-53fd136b2293
 	github.com/dgraph-io/badger/v3 v3.2011.1
 	github.com/pkg/profile v1.4.0
 	github.com/syndtr/goleveldb v1.0.0
